@@ -63,7 +63,6 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.navCtrl.pop();
     this.GetTopics();
   }
 }
