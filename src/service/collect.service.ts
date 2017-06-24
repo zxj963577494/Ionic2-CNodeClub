@@ -22,7 +22,7 @@ export class CollectService {
       .map(res => res.json());
   }
 
-  getCollects(loginname: string): Observable<any[]> {
+  getCollects(loginname: string): Observable<any> {
     return this.http.get(this.baseUrl + '/topics/' + loginname)
       .map(res => res.json());
   }

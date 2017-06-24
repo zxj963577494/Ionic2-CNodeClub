@@ -17,7 +17,7 @@ export class MessageService {
       .map(res => res.json());
   }
 
-  GetMessages(request: GetMessagesRequest): Observable<any[]> {
+  GetMessages(request: GetMessagesRequest): Observable<any> {
     return this.http.get(this.baseUrl + '/messages', { params: request })
       .map(res => res.json());
   }

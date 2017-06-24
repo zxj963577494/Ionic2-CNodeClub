@@ -3,31 +3,49 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
-import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { AppComponent } from './app.component';
+import { HomePage, HomeDetailPage } from '../pages/home/';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { TopicService, MessageService, RepliesService, UserService, CollectService } from '../service/';
+import { TopicService, MessageService, RepliesService, UserService, CollectService, CoreService } from '../service/';
+
+import { TabDirective } from "../directive/";
+import { AmAgoTimePipe, LinkPipe } from '../pipe/'
 
 @NgModule({
   declarations: [
-    MyApp,
+    AppComponent,
     HomePage,
-    ListPage
+    HomeDetailPage,
+    TabDirective,
+    AmAgoTimePipe,
+    LinkPipe
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(AppComponent, {
+      backButtonText: '',
+      backButtonIcon: 'ios-arrow-back',
+      pageTransition: 'ios-transition'
+    }, {
+      links:[
+        { component: HomePage, name: 'Home', segment: 'home' },
+        { component: HomePage, name: 'Home', segment: 'home/:tab'},
+        { component: HomeDetailPage, name: 'HomeDetail', segment: 'home/:id' },
+        { component: HomeDetailPage, name: 'HomeDetail', segment: 'user/:loginname' },
+        { component: HomeDetailPage, name: 'HomeDetail', segment: 'login/' },
+        { component: HomeDetailPage, name: 'HomeDetail', segment: 'account/' }
+      ]
+    }),
     HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
+    AppComponent,
     HomePage,
-    ListPage
+    HomeDetailPage
   ],
   providers: [
     StatusBar,
@@ -38,7 +56,8 @@ import { TopicService, MessageService, RepliesService, UserService, CollectServi
     RepliesService,
     TopicService,
     UserService,
-    CollectService
+    CollectService,
+    CoreService
   ]
 })
 export class AppModule { }

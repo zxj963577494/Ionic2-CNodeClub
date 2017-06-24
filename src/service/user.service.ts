@@ -12,7 +12,7 @@ export class UserService {
 
   constructor(private http: Http) { }
 
-  getCollects(loginname: string): Observable<any[]> {
+  getCollects(loginname: string): Observable<any> {
     return this.http.get(this.baseUrl + '/user/' + loginname)
       .map(res => res.json());
   }

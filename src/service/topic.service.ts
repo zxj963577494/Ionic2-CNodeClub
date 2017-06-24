@@ -13,7 +13,7 @@ export class TopicService {
 
   constructor(private http: Http) { }
 
-  getTopics(request: GetTopicsRequest): Observable<any[]> {
+  getTopics(request: GetTopicsRequest): Observable<any> {
     return this.http.get(this.baseUrl + '/topics', { params: request })
       .map(res => res.json());
   }

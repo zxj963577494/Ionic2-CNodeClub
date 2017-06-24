@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>CNode技术社区</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="share-alt"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="social-cards">
+  <ion-card>
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="{{topic.author.avatar_url}}" />
+      </ion-avatar>
+      <h2>{{topic.author.loginname}}</h2>
+      <p>发布 <span>{{topic.create_at | amAgoTime}}</span> 最后回复 <span>{{topic.last_reply_at | amAgoTime}}</span></p>
+    </ion-item>
+
+    <ion-card-content>
+      <div [innerHTML]="topic.content| link">
+      </div>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col align-self-center text-center>
+        <ion-note>
+          <ion-icon name='trending-up'></ion-icon>
+          {{topic.visit_count}} 浏览
+        </ion-note>
+      </ion-col>
+      <ion-col align-self-center text-center>
+        <ion-note>
+          <ion-icon name='chatbubbles'></ion-icon>
+          {{topic.reply_count}} 评论
+        </ion-note>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="primary" (click)="collect()" clear small icon-start>
+        <ion-icon name="bookmark"></ion-icon>
+        收藏
+      </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>
