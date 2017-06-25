@@ -12,12 +12,12 @@ export class UserService {
 
   constructor(private http: Http) { }
 
-  getCollects(loginname: string): Observable<any> {
+  getUser(loginname: string): Observable<any> {
     return this.http.get(this.baseUrl + '/user/' + loginname)
       .map(res => res.json());
   }
 
-  PostAccessToken(topic_id: string, request: PostAccessTokenRequest): Observable<any> {
+  PostAccessToken(request: PostAccessTokenRequest): Observable<any> {
     return this.http.post(this.baseUrl + '/accesstoken', request)
       .map(res => res.json());
   }

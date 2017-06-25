@@ -7,14 +7,14 @@
     </ion-buttons>
     <ion-title>CNode技术社区</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only>
+      <button ion-button icon-only (click)="login()">
         <ion-icon name="contact"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content class="list-avatar-page">
+<ion-content>
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="arrow-dropdown"
@@ -24,9 +24,9 @@
     </ion-refresher-content>
   </ion-refresher>
   <ion-fab right bottom>
-    <button ion-fab color="secondary"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab color="secondary" (click)="addTopic()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
-  <ion-list>
+  <ion-list class="list-avatar-page">
     <ion-item *ngFor="let item of topics;trackBy:item?.id" (click)="openPage(item.id)">
       <ion-avatar item-start>
         <img src="{{item.author.avatar_url}}" />

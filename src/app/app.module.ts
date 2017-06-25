@@ -2,9 +2,13 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
-import { HomePage, HomeDetailPage } from '../pages/home/';
+import { HomePage, HomeAddPage, HomeDetailPage } from '../pages/home/';
+import { LoginPage } from '../pages/login/';
+import { AccountPage } from '../pages/account/';
+import { UserPage } from '../pages/user/';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -18,7 +22,11 @@ import { AmAgoTimePipe, LinkPipe } from '../pipe/'
   declarations: [
     AppComponent,
     HomePage,
+    HomeAddPage,
     HomeDetailPage,
+    LoginPage,
+    AccountPage,
+    UserPage,
     TabDirective,
     AmAgoTimePipe,
     LinkPipe
@@ -30,22 +38,27 @@ import { AmAgoTimePipe, LinkPipe } from '../pipe/'
       backButtonIcon: 'ios-arrow-back',
       pageTransition: 'ios-transition'
     }, {
-      links:[
-        { component: HomePage, name: 'Home', segment: 'home' },
-        { component: HomePage, name: 'Home', segment: 'home/:tab'},
-        { component: HomeDetailPage, name: 'HomeDetail', segment: 'home/:id' },
-        { component: HomeDetailPage, name: 'HomeDetail', segment: 'user/:loginname' },
-        { component: HomeDetailPage, name: 'HomeDetail', segment: 'login/' },
-        { component: HomeDetailPage, name: 'HomeDetail', segment: 'account/' }
-      ]
-    }),
-    HttpModule
+        links: [
+          { component: HomePage, name: 'Home', segment: 'home' },
+          { component: HomePage, name: 'Home', segment: 'home/tab/:tab' },
+          { component: HomeDetailPage, name: 'HomeDetail', segment: 'home/:id' },
+          { component: UserPage, name: 'User', segment: 'user/:loginname' },
+          { component: LoginPage, name: 'Login', segment: 'login/' },
+          { component: AccountPage, name: 'Account', segment: 'account/' }
+        ]
+      }),
+    HttpModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     AppComponent,
     HomePage,
-    HomeDetailPage
+    HomeAddPage,
+    HomeDetailPage,
+    LoginPage,
+    AccountPage,
+    UserPage
   ],
   providers: [
     StatusBar,

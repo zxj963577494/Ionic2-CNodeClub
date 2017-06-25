@@ -14,18 +14,18 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="social-cards">
+<ion-content>
   <ion-card>
     <ion-item>
       <ion-avatar item-start>
-        <img src="{{topic?.author?.avatar_url}}" />
+        <img src="{{topic.author.avatar_url}}" />
       </ion-avatar>
-      <h2>{{topic?.author?.loginname}}</h2>
-      <p>发布 <span>{{topic?.create_at | amAgoTime}}</span> 最后回复 <span>{{topic?.last_reply_at | amAgoTime}}</span></p>
+      <h2>{{topic.author.loginname}}</h2>
+      <p>发布 <span>{{topic.create_at | amAgoTime}}</span> 最后回复 <span>{{topic.last_reply_at | amAgoTime}}</span></p>
     </ion-item>
 
     <ion-card-content>
-      <div [innerHTML]="topic?.content| link">
+      <div [innerHTML]="topic.content| link">
       </div>
     </ion-card-content>
 
@@ -33,16 +33,16 @@
       <ion-col align-self-center text-center>
         <ion-note>
           <ion-icon name='trending-up'></ion-icon>
-          {{topic?.visit_count}} 浏览
+          {{topic.visit_count}} 浏览
         </ion-note>
       </ion-col>
       <ion-col align-self-center text-center>
         <ion-note>
           <ion-icon name='chatbubbles'></ion-icon>
-          {{topic?.reply_count}} 评论
+          {{topic.reply_count}} 评论
         </ion-note>
       </ion-col>
-      <ion-col>
+      <ion-col align-self-center text-center>
         <button ion-button color="primary" (click)="collect()" clear small icon-start>
         <ion-icon name="bookmark"></ion-icon>
         收藏
@@ -50,4 +50,46 @@
       </ion-col>
     </ion-row>
   </ion-card>
+  <ion-list class="list-avatar-page">
+    <ion-item text-wrap *ngFor="let item of topic.replies;trackBy:item?.id">
+      <ion-avatar item-start>
+        <img src="{{item.author.avatar_url}}" />
+      </ion-avatar>
+      <h2>{{item.author.loginname}}</h2>
+      <h3>{{item.create_at | amAgoTime}}</h3>
+      <p [innerHTML]="item.content| link"></p>
+      <ion-row>
+        <ion-col>
+        </ion-col>
+        <ion-col>
+        </ion-col>
+        <ion-col>
+        </ion-col>
+        <ion-col align-self-center text-center>
+          <button ion-button color="primary" (click)="replieUps(item?.id)" clear small icon-start>
+            <ion-icon name="thumbs-up"></ion-icon>
+            点赞
+          </button>
+        </ion-col>
+        <ion-col align-self-center text-center>
+          <button ion-button color="primary" (click)="reReply(topic?.id, item?.id,item.author.loginname)" clear small icon-start>
+            <ion-icon name="undo"></ion-icon>
+            回复
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-input [(ngModel)]="content" type="text" placeholder="请登录后回复">
+    </ion-input>
+    <ion-buttons end>
+      <button (click)="saveReply()" [disabled]="!isLogin || replyParams.content==''" ion-button icon-right color="royal">
+        提交
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
