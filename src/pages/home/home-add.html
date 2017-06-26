@@ -1,5 +1,10 @@
 <ion-header>
   <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <ion-icon color="primary" name="close"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>创建话题</ion-title>
   </ion-navbar>
 </ion-header>
@@ -9,7 +14,7 @@
   <ion-list>
     <ion-item>
       <ion-label>板块</ion-label>
-      <ion-select okText="确定" cancelText="取消" [(ngModel)]="topic.tab">
+      <ion-select okText="确定" cancelText="取消" [(ngModel)]="topicParams.tab">
         <ion-option value="">请选择</ion-option>
         <ion-option value="share">分享</ion-option>
         <ion-option value="ask">问答</ion-option>
@@ -19,11 +24,11 @@
     </ion-item>
     <ion-item>
       <ion-label floating>标题</ion-label>
-      <ion-input [(ngModel)]="topic.title" type="text"></ion-input>
+      <ion-input [(ngModel)]="topicParams.title" required type="text"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>内容</ion-label>
-      <ion-textarea rows="5" [(ngModel)]="topic.content"></ion-textarea>
+      <ion-textarea rows="5" required [(ngModel)]="topicParams.content"></ion-textarea>
     </ion-item>
   </ion-list>
   <div padding>
@@ -35,11 +40,11 @@
     </ion-card-header>
     <ion-card-content>
       <p>### 单行的标题
-      <p>**粗体**
-      <p>`console.log('行内代码')`
-      <p>```js\n code \n``` 标记代码块
-      <p>[内容](链接)
-      <p>![文字说明](图片链接)
+        <p>**粗体**
+          <p>`console.log('行内代码')`
+            <p>```js\n code \n``` 标记代码块
+              <p>[内容](链接)
+                <p>![文字说明](图片链接)
     </ion-card-content>
   </ion-card>
 </ion-content>

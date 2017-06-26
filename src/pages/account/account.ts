@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 
 import { UserService } from '../../service/user.service';
+import { UtilService } from '../../service/util.service';
+import { AccountCollectsPage } from '../account';
+import { AccountMessagesPage } from '../account';
+import { AccountTopicsPage } from '../account';
 
 @IonicPage()
 @Component({
@@ -13,7 +16,7 @@ export class AccountPage implements OnInit {
   user: any;
   loginname: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private userService: UserService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private utilService: UtilService) {
     this.user = {
       avatar_url: '',
       loginname: '',
@@ -28,15 +31,19 @@ export class AccountPage implements OnInit {
     );
   }
 
-  getLocal() {
-    return this.storage.get('user').then((val) => {
-      if (val) {
-        this.loginname = val.loginname;
-      }
-    });
+  openPage(cate: string) {
+    if (cate === 'collects') {
+      this.utilService.modal(AccountCollectsPage);
+    }
+    else if (cate === 'messages') {
+      this.utilService.modal(AccountMessagesPage);
+    }
+    else {
+      this.utilService.modal(AccountTopicsPage);
+    }
   }
 
   ngOnInit() {
-    this.getLocal().then(() => this.getUser());
+    this.utilService.getLoginStatus().then((logined) => this.loginname = logined.loginname).then(() => this.getUser());
   }
 }

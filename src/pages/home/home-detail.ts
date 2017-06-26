@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { TopicService } from '../../service/topic.service';
 import { CollectService } from '../../service/collect.service';
 import { RepliesService } from '../../service/replies.service';
+import { UtilService } from '../../service/util.service';
 
 @IonicPage()
 @Component({
@@ -21,7 +21,7 @@ export class HomeDetailPage implements OnInit {
   local: any;
   isLogin: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController, private topicService: TopicService, private collectService: CollectService, private repliesService: RepliesService, private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private topicService: TopicService, private collectService: CollectService, private repliesService: RepliesService, private utilService: UtilService) {
     this.id = this.navParams.get('id');
     this.topic = {
       author: {
@@ -50,22 +50,9 @@ export class HomeDetailPage implements OnInit {
     }
   }
 
-  getLocal() {
-    return this.storage.get('user').then((val) => {
-      if (val) {
-        this.local = val;
-        this.accesstoken = val.accesstoken;
-        this.isLogin = true;
-      }
-      else {
-        this.isLogin = false;
-      }
-    });
-  }
-
   getTopicDetail() {
     this.topicService.getTopicDetail(this.id, this.topicParams).subscribe(
-      topic => this.topic = topic.data
+      data => this.topic = data.data
     );
   }
 
@@ -75,27 +62,15 @@ export class HomeDetailPage implements OnInit {
       this.collectService.PostCollect(this.collectParams).subscribe(
         data => {
           if (data.success) {
-            this.toastCtrl.create({
-              message: '收藏成功',
-              duration: 1500,
-              position: 'top'
-            });
+            this.utilService.toast('收藏成功');
           }
           else {
-            this.toastCtrl.create({
-              message: '收藏失败或已经收藏',
-              duration: 1500,
-              position: 'top'
-            });
+            this.utilService.toast('收藏失败或已经收藏');
           }
         });
     }
     else {
-      this.toastCtrl.create({
-        message: '请登录后进行操作',
-        duration: 1500,
-        position: 'top'
-      });
+      this.utilService.toast('请登录后进行操作');
     }
   }
 
@@ -104,34 +79,18 @@ export class HomeDetailPage implements OnInit {
       this.repliesService.PutRepliesUps(replyId, { accesstoken: this.accesstoken }).subscribe(data => {
         if (data.success) {
           if (data.action === 'down') {
-            this.toastCtrl.create({
-              message: '点赞成功',
-              duration: 1500,
-              position: 'top'
-            });
+            this.utilService.toast('点赞成功');
           }
           else {
-            this.toastCtrl.create({
-              message: '取消点赞成功',
-              duration: 1500,
-              position: 'top'
-            });
+            this.utilService.toast('取消成功');
           }
         }
         else {
-          this.toastCtrl.create({
-            message: '操作失败',
-            duration: 1500,
-            position: 'top'
-          });
+          this.utilService.toast('操作失败');
         }
       });
     } else {
-      this.toastCtrl.create({
-        message: '请登录后进行操作',
-        duration: 1500,
-        position: 'top'
-      });
+      this.utilService.toast('请登录后进行操作');
     }
   }
 
@@ -156,24 +115,24 @@ export class HomeDetailPage implements OnInit {
             id: data.reply_id
           };
           this.topic.replies.unshift(replie);
-          this.toastCtrl.create({
-            message: '回复成功',
-            duration: 1500,
-            position: 'top'
-          });
+          this.utilService.toast('回复成功');
           this.replyParams.content = '';
         }
       });
     } else {
-      this.toastCtrl.create({
-        message: '请登录后进行操作',
-        duration: 1500,
-        position: 'top'
-      });
+      this.utilService.toast('请登录后进行操作');
     }
   }
 
   ngOnInit() {
-    this.getLocal().then(() => this.getTopicDetail());
+    this.utilService.getLoginStatus().then((logined) => {
+      this.isLogin = logined ? true : false;
+      if (logined) {
+        this.accesstoken = logined.accesstoken;
+        this.topicParams.accesstoken = logined.accesstoken;
+        this.replyParams.accesstoken = logined.accesstoken;
+        this.collectParams.accesstoken = logined.accesstoken;
+      }
+    }).then(() => this.getTopicDetail());
   }
 }

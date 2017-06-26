@@ -1,21 +1,19 @@
 <ion-header>
+
   <ion-navbar>
-    <ion-title>用户详情</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <ion-icon color="primary" name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>我的话题</ion-title>
   </ion-navbar>
+
 </ion-header>
+
 
 <ion-content>
   <ion-list>
-    <ion-item>
-      <ion-avatar item-left>
-        <img src="{{user.avatar_url}}" />
-      </ion-avatar>
-      <h2>{{user.loginname}}</h2>
-      <h3>积分 {{user.score}}</h3>
-      <p>注册日期 {{user.create_at|date:'yyyy-MM-dd'}}</p>
-    </ion-item>
-  </ion-list>
-  <ion-list *ngIf="user.recent_topics">
     <ion-list-header>
       最近创建的话题
     </ion-list-header>
@@ -30,7 +28,7 @@
       <p class="agotime">{{topic.last_reply_at|amAgoTime}}</p>
     </ion-item>
   </ion-list>
-  <ion-list *ngIf="user.recent_replies">
+  <ion-list>
     <ion-list-header>
       最近参与的话题
     </ion-list-header>
@@ -43,18 +41,6 @@
       </ion-avatar>
       <h2>{{topic.title}}</h2>
       <p class="agotime">{{topic.last_reply_at|amAgoTime}}</p>
-    </ion-item>
-  </ion-list>
-  <ion-list *ngIf="user.collect_topics">
-    <ion-list-header>
-      最近收藏
-    </ion-list-header>
-    <ion-item *ngFor="let topic of user.collect_topics" (click)="openPage(topic.id)">
-      <ion-avatar item-left>
-        <img src="{{topic.author.avatar_url}}">
-      </ion-avatar>
-      <h2>{{topic.title}}</h2>
-      <h3 class="agotime">{{topic.last_reply_at|amAgoTime}}</h3>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -12,6 +12,8 @@ import { UserService } from '../../service/user.service';
 export class UserPage implements OnInit {
   user: any;
   loginname: string;
+  topicsCount: number;
+  repliesCount: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService) {
     this.loginname = navParams.get('loginname');
@@ -27,7 +29,11 @@ export class UserPage implements OnInit {
 
   getUser() {
     this.userService.getUser(this.loginname).subscribe(
-      data => this.user = data.data
+      data => {
+        this.user = data.data;
+        this.topicsCount = data.data.recent_topics.length
+        this.repliesCount = data.data.recent_replies.length;
+      }
     );
   }
 

@@ -12,14 +12,16 @@ export class LoginPage implements OnInit {
   user: {
     id: string,
     loginname: string,
-    avatar_url: string
+    avatar_url: string,
+    accesstoken: string
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
     this.user = {
       id: 'fab02782-df19-425e-9158-224614dd928a',
       loginname: 'zxj963577494',
-      avatar_url: 'https://avatars1.githubusercontent.com/u/6766515?v=3&s=120'
+      avatar_url: 'https://avatars1.githubusercontent.com/u/6766515?v=3&s=120',
+      accesstoken: 'fab02782-df19-425e-9158-224614dd928a'
     }
   }
 

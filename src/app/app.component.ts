@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { CoreService } from '../service/core.service';
+import { UtilService } from '../service/util.service';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,7 +16,7 @@ export class AppComponent {
 
   tabs: Array<{ key: string, value: string, icon: string }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private coreService: CoreService) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private utilService: UtilService) {
     this.initializeApp();
     this.getTabs();
   }
@@ -31,7 +31,7 @@ export class AppComponent {
   }
 
   getTabs() {
-    this.tabs = this.coreService.getTabs();
+    this.tabs = this.utilService.getTabs();
   }
 
   openPage(key: string) {

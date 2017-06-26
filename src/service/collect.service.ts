@@ -23,7 +23,7 @@ export class CollectService {
   }
 
   getCollects(loginname: string): Observable<any> {
-    return this.http.get(this.baseUrl + '/topics/' + loginname)
+    return this.http.get(this.baseUrl + '/topic_collect/' + loginname)
       .map(res => res.json());
   }
 

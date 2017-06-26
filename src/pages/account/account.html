@@ -21,15 +21,15 @@
     </ion-list-header>
     <ion-item>
       <ion-row text-center>
-        <ion-col>
+        <ion-col (click)="openPage('collects')">
           <ion-icon color="primary" name="bookmark"></ion-icon>
           收藏
         </ion-col>
-        <ion-col>
+        <ion-col (click)="openPage('messages')">
           <ion-icon color="primary" name="chatboxes"></ion-icon>
           消息
         </ion-col>
-        <ion-col>
+        <ion-col (click)="openPage('topics')">
           <ion-icon color="primary" name="chatbubbles"></ion-icon>
           话题
         </ion-col>

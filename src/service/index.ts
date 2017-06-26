@@ -4,4 +4,5 @@ export * from './replies.service';
 export * from './topic.service';
 export * from './user.service';
 export * from './core.service';
+export * from './util.service';
 

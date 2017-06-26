@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { App, IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { App, IonicPage, NavController, NavParams } from 'ionic-angular';
 
 
 import { TopicService } from '../../service/topic.service';
+import { UtilService } from '../../service/util.service';
 import { HomeDetailPage } from './home-detail';
 import { LoginPage } from '../login/login';
 import { AccountPage } from '../account/account';
@@ -20,7 +20,7 @@ export class HomePage implements OnInit {
   params: any;
   isLogin: boolean;
 
-  constructor(public appCtrl: App, public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController, private topicService: TopicService, private storage: Storage) {
+  constructor(public appCtrl: App, public navCtrl: NavController, public navParams: NavParams, private topicService: TopicService, private utilService: UtilService) {
     this.tab = this.navParams.get('tab');
     this.params = {
       page: 1,
@@ -32,7 +32,7 @@ export class HomePage implements OnInit {
 
   GetTopics() {
     this.topicService.getTopics(this.params).subscribe(
-      topics => this.topics = topics.data
+      data => this.topics = data.data
     );
   }
 
@@ -40,8 +40,8 @@ export class HomePage implements OnInit {
     this.params.page = 1;
     setTimeout(() => {
       this.topicService.getTopics(this.params).subscribe(
-        topics => {
-          this.topics = topics.data;
+        data => {
+          this.topics = data.data;
           refresher.complete();
         }
       );
@@ -52,9 +52,9 @@ export class HomePage implements OnInit {
     this.params.page++;
     setTimeout(() => {
       this.topicService.getTopics(this.params).subscribe(
-        topics => {
-          if (topics) {
-            this.topics.push(...topics.data);
+        data => {
+          if (data) {
+            this.topics.push(...data.data);
             infiniteScroll.complete();
           }
           else {
@@ -78,31 +78,16 @@ export class HomePage implements OnInit {
     }
   }
 
-  getLocal() {
-    return this.storage.get('user').then((val) => {
-      if (val) {
-        this.isLogin = true;
-      }
-      else {
-        this.isLogin = false;
-      }
-    })
-  }
-
   addTopic() {
     if (this.isLogin) {
-      this.appCtrl.getRootNav().push(HomeAddPage);
+      this.utilService.modal(HomeAddPage);
     }
     else {
-      this.toastCtrl.create({
-        message: '回复成功',
-        duration: 1500,
-        position: 'top'
-      });
+      this.utilService.toast('请登录后发帖');
     }
   }
 
   ngOnInit() {
-    this.getLocal().then(() => this.GetTopics());
+    this.utilService.getLoginStatus().then((logined) => this.isLogin = logined ? true : false).then(() => this.GetTopics());
   }
 }

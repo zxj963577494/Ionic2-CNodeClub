@@ -24,7 +24,7 @@
     </ion-refresher-content>
   </ion-refresher>
   <ion-fab right bottom>
-    <button ion-fab color="secondary" (click)="addTopic()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab color="secondary" (click)="addTopic()"><ion-icon name="create"></ion-icon></button>
   </ion-fab>
   <ion-list class="list-avatar-page">
     <ion-item *ngFor="let item of topics;trackBy:item?.id" (click)="openPage(item.id)">
