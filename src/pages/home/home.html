@@ -3,24 +3,21 @@
     <ion-buttons start>
       <button ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
-      </button>    
+      </button>
     </ion-buttons>
     <ion-title>CNode技术社区</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="login()">
         <ion-icon name="contact"></ion-icon>
       </button>
+      <ion-badge *ngIf="messageCount" color="danger">{{messageCount}}</ion-badge>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="arrow-dropdown"
-      pullingText="下拉刷新"
-      refreshingSpinner="circles"
-      refreshingText="正在刷新...">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles" refreshingText="正在刷新...">
     </ion-refresher-content>
   </ion-refresher>
   <ion-fab right bottom>
@@ -37,9 +34,7 @@
     </ion-item>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="正在加载...">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="正在加载...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

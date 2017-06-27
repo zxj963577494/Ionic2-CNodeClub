@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { App, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { App, IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 
 
 import { TopicService } from '../../service/topic.service';
 import { UtilService } from '../../service/util.service';
+import { MessageService } from '../../service/message.service';
 import { HomeDetailPage } from './home-detail';
 import { LoginPage } from '../login/login';
 import { AccountPage } from '../account/account';
@@ -18,9 +19,10 @@ export class HomePage implements OnInit {
   tab: string;
   topics: any[];
   params: any;
-  isLogin: boolean;
+  user: any;
+  messageCount: number;
 
-  constructor(public appCtrl: App, public navCtrl: NavController, public navParams: NavParams, private topicService: TopicService, private utilService: UtilService) {
+  constructor(private appCtrl: App, private navCtrl: NavController, private navParams: NavParams, private events: Events, private topicService: TopicService, private utilService: UtilService, private messageService: MessageService) {
     this.tab = this.navParams.get('tab');
     this.params = {
       page: 1,
@@ -28,6 +30,12 @@ export class HomePage implements OnInit {
       limit: 20,
       mdrender: false
     }
+    events.subscribe('messageCount', (data) => {
+      this.messageCount = data;
+    });
+    events.subscribe('topicPush', (data) => {
+      this.topics.unshift(data);
+    });
   }
 
   GetTopics() {
@@ -70,7 +78,7 @@ export class HomePage implements OnInit {
   }
 
   login() {
-    if (this.isLogin) {
+    if (this.user) {
       this.appCtrl.getRootNav().push(AccountPage);
     }
     else {
@@ -79,15 +87,25 @@ export class HomePage implements OnInit {
   }
 
   addTopic() {
-    if (this.isLogin) {
-      this.utilService.modal(HomeAddPage);
+    if (this.user) {
+      this.navCtrl.push(HomeAddPage);
     }
     else {
       this.utilService.toast('请登录后发帖');
     }
   }
 
+  getMesssge() {
+    this.messageService.GetMessageCount({ accesstoken: this.user.accesstoken }).subscribe(data => this.messageCount = data.data)
+  }
+
   ngOnInit() {
-    this.utilService.getLoginStatus().then((logined) => this.isLogin = logined ? true : false).then(() => this.GetTopics());
+    this.utilService.getLoginStatus().then((data) => {
+      this.user = data;
+    }).then(() => {
+      if (this.user) {
+        this.getMesssge();
+      }
+    }).then(() => this.GetTopics());
   }
 }

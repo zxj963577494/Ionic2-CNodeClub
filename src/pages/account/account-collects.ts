@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { UtilService } from "../../service/util.service";
 import { CollectService } from "../../service/collect.service";
@@ -15,7 +15,7 @@ export class AccountCollectsPage implements OnInit {
   user: any;
   collectCount: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private collectService: CollectService, private utilService: UtilService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private collectService: CollectService, private utilService: UtilService) {
     this.collectParams = {
       topic_id: '',
       accesstoken: ''
@@ -29,10 +29,6 @@ export class AccountCollectsPage implements OnInit {
         this.collectCount = data.data.length;
       }
     )
-  }
-
-  dismiss() {
-    this.viewCtrl.dismiss();
   }
 
   remove(topic: any) {

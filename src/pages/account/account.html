@@ -28,6 +28,7 @@
         <ion-col (click)="openPage('messages')">
           <ion-icon color="primary" name="chatboxes"></ion-icon>
           消息
+          <ion-badge *ngIf="messageCount" color="danger">{{messageCount}}</ion-badge>
         </ion-col>
         <ion-col (click)="openPage('topics')">
           <ion-icon color="primary" name="chatbubbles"></ion-icon>

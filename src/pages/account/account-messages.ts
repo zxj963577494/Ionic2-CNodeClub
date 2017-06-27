@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 
 import { UtilService } from "../../service/util.service";
 import { MessageService } from "../../service/message.service";
+import { HomeDetailPage } from '../../pages/home/home-detail';
+import { UserPage } from '../../pages/user/user';
 
 @IonicPage()
 @Component({
@@ -16,7 +18,7 @@ export class AccountMessagesPage implements OnInit {
   hasMessageCount: number;
   user: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private messageService: MessageService, private utilService: UtilService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private events: Events, private messageService: MessageService, private utilService: UtilService) {
     this.messageParams = {
       mdrender: true,
       accesstoken: ''
@@ -34,14 +36,19 @@ export class AccountMessagesPage implements OnInit {
     )
   }
 
-  dismiss() {
-    this.viewCtrl.dismiss();
+  openTopic(id: string) {
+    this.navCtrl.push(HomeDetailPage, { id: id });
+  }
+
+  openUser(loginname: string) {
+    this.navCtrl.push(UserPage, { loginname: loginname });
   }
 
   markOne(msg_id: string) {
     this.messageService.PutMessageMarkOne(msg_id, { accesstoken: this.user.accesstoken }).subscribe(
       data => {
         if (data.success) {
+          this.events.publish('messageCount', this.hasNotMessageCount - 1);
           this.utilService.toast('操作成功');
         }
       });
@@ -51,7 +58,8 @@ export class AccountMessagesPage implements OnInit {
     this.messageService.PutMessageMarkAll({ accesstoken: this.user.accesstoken }).subscribe(
       data => {
         if (data.success) {
-          this.utilService.toast('操作成功');
+          this.events.publish('messageCount', 0);
+          this.utilService.toast('全部标记为已读成功');
         }
       });
   }

@@ -15,11 +15,9 @@ export class HomeDetailPage implements OnInit {
   id: string;
   topicParams: any;
   topic: any;
-  accesstoken: string;
   replyParams: any;
   collectParams: any;
-  local: any;
-  isLogin: boolean = false;
+  user: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private topicService: TopicService, private collectService: CollectService, private repliesService: RepliesService, private utilService: UtilService) {
     this.id = this.navParams.get('id');
@@ -57,7 +55,7 @@ export class HomeDetailPage implements OnInit {
   }
 
   collect(topic_id: string) {
-    if (this.isLogin) {
+    if (this.user) {
       this.collectParams.topic_id = topic_id;
       this.collectService.PostCollect(this.collectParams).subscribe(
         data => {
@@ -75,22 +73,22 @@ export class HomeDetailPage implements OnInit {
   }
 
   replieUps(replyId: string) {
-    if (this.isLogin) {
-      this.repliesService.PutRepliesUps(replyId, { accesstoken: this.accesstoken }).subscribe(data => {
+    if (this.user) {
+      this.repliesService.PutRepliesUps(replyId, { accesstoken: this.user.accesstoken }).subscribe(data => {
         if (data.success) {
           if (data.action === 'down') {
-            this.utilService.toast('点赞成功');
+            this.utilService.toast('取消成功');
           }
           else {
-            this.utilService.toast('取消成功');
+            this.utilService.toast('点赞成功');
           }
         }
         else {
           this.utilService.toast('操作失败');
         }
-      });
-    } else {
-      this.utilService.toast('请登录后进行操作');
+      }, data => {
+        this.utilService.toast(data.error_msg);
+      })
     }
   }
 
@@ -100,7 +98,7 @@ export class HomeDetailPage implements OnInit {
   }
 
   saveReply() {
-    if (this.isLogin) {
+    if (this.user) {
       if (this.replyParams.content.indexOf('@') < 0) {
         this.replyParams.reply_id = '';
       }
@@ -108,8 +106,8 @@ export class HomeDetailPage implements OnInit {
         if (data.success) {
           let replie = {
             author: {
-              loginname: this.local.loginname,
-              avatar_url: this.local.avatar_url
+              loginname: this.user.loginname,
+              avatar_url: this.user.avatar_url
             },
             content: '<div class=\"markdown-text\"><p>' + this.replyParams.content + '</p>\n</div>',
             id: data.reply_id
@@ -126,9 +124,8 @@ export class HomeDetailPage implements OnInit {
 
   ngOnInit() {
     this.utilService.getLoginStatus().then((logined) => {
-      this.isLogin = logined ? true : false;
+      this.user = logined;
       if (logined) {
-        this.accesstoken = logined.accesstoken;
         this.topicParams.accesstoken = logined.accesstoken;
         this.replyParams.accesstoken = logined.accesstoken;
         this.collectParams.accesstoken = logined.accesstoken;

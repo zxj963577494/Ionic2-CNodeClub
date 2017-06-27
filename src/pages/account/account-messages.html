@@ -1,11 +1,6 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <ion-icon color="primary" name="close"></ion-icon>
-      </button>
-    </ion-buttons>
     <ion-title>我的消息</ion-title>
     <ion-buttons end>
       <button ion-button (click)="markAll()">
@@ -21,18 +16,18 @@
     <ion-list-header>
       未读消息
     </ion-list-header>
-    <ion-item *ngIf="hasNotMessageCount">
+    <ion-item *ngIf="!hasNotMessageCount">
       <button clear ion-button full>暂无未读消息</button>
     </ion-item>
     <ion-item-sliding *ngFor="let message of myMessages?.hasnot_read_messages">
       <ion-item text-wrap>
         <p *ngIf="message.type == 'reply'">
-          <a href="#/user/{{message.author.loginname}}">{{message.topic.loginname}}</a> 回复了你的话题
-          <a href="#/home/{{message.topic.id}}">{{message.topic.title}}</a>
+          <a (click)="openUser(message.author.loginname)">{{message.topic.loginname}}</a> 回复了你的话题
+          <a (click)="openTopic(message.topic.id)">{{message.topic.title}}</a>
         </p>
         <p *ngIf="message.type == 'at'">
-          <a href="#/user/{{message.author.loginname}}">{{message.topic.loginname}}</a> 在话题
-          <a href="#/home/{{message.topic.id}}">{{message.topic.title}}</a> 中@了你
+          <a (click)="openUser(message.author.loginname)">{{message.topic.loginname}}</a> 在话题
+          <a (click)="openTopic(message.topic.id)">{{message.topic.title}}</a> 中@了你
         </p>
       </ion-item>
       <ion-item-options side="right">
@@ -48,18 +43,18 @@
     <ion-list-header>
       已读消息
     </ion-list-header>
-    <ion-item *ngIf="hasMessageCount">
+    <ion-item *ngIf="!hasMessageCount">
       <button clear ion-button full>暂无已读消息</button>
     </ion-item>
     <ion-item *ngFor="let message of myMessages?.has_read_messages ">
       <p *ngIf="message.type=='reply' ">
-        <a href="#/user/{{message.author.loginname}} ">{{message.topic.loginname}}</a> 回复了你的话题
-        <a href="#/home/{{message.topic.id}} ">{{message.topic.title}}</a>
+        <a (click)="openUser(message.author.loginname)">{{message.topic.loginname}}</a> 回复了你的话题
+        <a (click)="openTopic(message.topic.id)">{{message.topic.title}}</a>
       </p>
 
       <p *ngIf="message.type=='at' ">
-        <a href="#/user/{{message.author.loginname}} ">{{message.topic.loginname}}</a> 在话题
-        <a href="#/home/{{message.topic.id}} ">{{message.topic.title}}</a> 中@了你
+        <a (click)="openUser(message.author.loginname)">{{message.topic.loginname}}</a> 在话题
+        <a (click)="openTopic(message.topic.id)">{{message.topic.title}}</a> 中@了你
       </p>
     </ion-item>
   </ion-list>

@@ -5,31 +5,30 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { GetTopicsRequest, GetTopicDetailRequest, PostTopicsRequest, PutTopicsRequest } from '../message/topics.request';
+import { CoreService } from './core.service';
 
 @Injectable()
 export class TopicService {
 
-  private baseUrl: string = 'https://cnodejs.org/api/v1';
-
-  constructor(private http: Http) { }
+  constructor(private http: Http, private coreService: CoreService) { }
 
   getTopics(request: GetTopicsRequest): Observable<any> {
-    return this.http.get(this.baseUrl + '/topics', { params: request })
+    return this.http.get(this.coreService.baseUrl + '/topics', { params: request })
       .map(res => res.json());
   }
 
   getTopicDetail(id: string, request: GetTopicDetailRequest): Observable<any> {
-    return this.http.get(this.baseUrl + '/topic/' + id, { params: request })
+    return this.http.get(this.coreService.baseUrl + '/topic/' + id, { params: request })
       .map(res => res.json());
   }
 
   PostTopics(request: PostTopicsRequest): Observable<any> {
-    return this.http.post(this.baseUrl + '/topics', request)
+    return this.http.post(this.coreService.baseUrl + '/topics', request)
       .map(res => res.json());
   }
 
   PutTopics(request: PutTopicsRequest): Observable<any> {
-    return this.http.post(this.baseUrl + '/topics/update', request)
+    return this.http.post(this.coreService.baseUrl + '/topics/update', request)
       .map(res => res.json());
   }
 }

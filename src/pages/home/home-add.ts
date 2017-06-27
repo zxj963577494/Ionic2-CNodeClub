@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 
 import { TopicService } from '../../service/topic.service';
 import { UtilService } from '../../service/util.service';
@@ -11,8 +11,9 @@ import { UtilService } from '../../service/util.service';
 })
 export class HomeAddPage implements OnInit {
   topicParams: any;
+  user: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private topicService: TopicService, private utilService: UtilService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private events: Events, private topicService: TopicService, private utilService: UtilService) {
     this.topicParams = {
       accesstoken: '',
       tab: '',
@@ -21,28 +22,33 @@ export class HomeAddPage implements OnInit {
     }
   }
 
-  submit() {
+  onSubmit() {
     this.topicService.PostTopics(this.topicParams).subscribe(
       data => {
-        if (data.data.successs) {
+        if (data.success) {
           this.utilService.toast('发布成功');
+          this.events.publish('topicPush', {
+            id: data.topic_id,
+            title: this.topicParams.title,
+            author: {
+              avatar_url: this.user.avatar_url,
+              loginname: this.user.loginname
+            },
+            last_reply_at: new Date()
+          });
         }
         else {
           this.utilService.toast('发布失败');
         }
-        this.viewCtrl.dismiss();
       }
     )
   }
-
-  dismiss() {
-    this.viewCtrl.dismiss();
-  }
-
+  
   ngOnInit() {
-    this.utilService.getLoginStatus().then((logined) => {
-      if (logined) {
-        this.topicParams.accesstoken = logined.accesstoken;
+    this.utilService.getLoginStatus().then((data) => {
+      if (data) {
+        this.user = data;
+        this.topicParams.accesstoken = data.accesstoken;
       }
       else {
         this.utilService.toast('请登录');

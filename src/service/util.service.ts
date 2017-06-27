@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ToastController, ModalController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class UtilService {
 
-  constructor(public toastCtrl: ToastController, public modalCtrl: ModalController, private storage: Storage) { }
+  constructor(public toastCtrl: ToastController, private storage: Storage) { }
 
   getTabs(): Array<{ key: string, value: string, icon: string }> {
     return [{
@@ -46,10 +46,6 @@ export class UtilService {
       duration: 1500,
       position: 'top'
     }).present();
-  }
-
-  modal(page: any) {
-    this.modalCtrl.create(page).present();
   }
 
   getLoginStatus() {

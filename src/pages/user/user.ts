@@ -15,7 +15,7 @@ export class UserPage implements OnInit {
   topicsCount: number;
   repliesCount: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private userService: UserService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private userService: UserService) {
     this.loginname = navParams.get('loginname');
     this.user = {
       avatar_url: '',

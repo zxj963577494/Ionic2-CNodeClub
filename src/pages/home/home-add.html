@@ -1,50 +1,48 @@
 <ion-header>
   <ion-navbar>
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <ion-icon color="primary" name="close"></ion-icon>
-      </button>
-    </ion-buttons>
     <ion-title>创建话题</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label>板块</ion-label>
-      <ion-select okText="确定" cancelText="取消" [(ngModel)]="topicParams.tab">
-        <ion-option value="">请选择</ion-option>
-        <ion-option value="share">分享</ion-option>
-        <ion-option value="ask">问答</ion-option>
-        <ion-option value="job">招聘</ion-option>
-        <ion-option value="dev">客户端测试</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>标题</ion-label>
-      <ion-input [(ngModel)]="topicParams.title" required type="text"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>内容</ion-label>
-      <ion-textarea rows="5" required [(ngModel)]="topicParams.content"></ion-textarea>
-    </ion-item>
-  </ion-list>
-  <div padding>
-    <button ion-button color="primary" block (click)="submit()">提交</button>
-  </div>
-  <ion-card>
-    <ion-card-header>
-      Markdown 语法参考
-    </ion-card-header>
-    <ion-card-content>
-      <p>### 单行的标题
-        <p>**粗体**
-          <p>`console.log('行内代码')`
-            <p>```js\n code \n``` 标记代码块
-              <p>[内容](链接)
-                <p>![文字说明](图片链接)
-    </ion-card-content>
-  </ion-card>
+  <form #topicForm="ngForm" (ngSubmit)="onSubmit()">
+    <ion-list>
+      <ion-item>
+        <ion-label>板块</ion-label>
+        <ion-select name="tab" okText="确定" cancelText="取消" [(ngModel)]="topicParams.tab">
+          <ion-option value="">请选择</ion-option>
+          <ion-option value="share">分享</ion-option>
+          <ion-option value="ask">问答</ion-option>
+          <ion-option value="job">招聘</ion-option>
+          <ion-option value="dev">客户端测试</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>标题</ion-label>
+        <ion-input name="title" minlength="10" maxlength="30" [(ngModel)]="topicParams.title" placeholder="标题字数10字以上" required
+          type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>内容</ion-label>
+        <ion-textarea name="content" rows="5" required [(ngModel)]="topicParams.content"></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <div padding>
+      <button type="submit" ion-button color="primary" block [disabled]="!topicForm.valid">提交</button>
+    </div>
+    <ion-card>
+      <ion-card-header>
+        Markdown 语法参考
+      </ion-card-header>
+      <ion-card-content>
+        <p>### 单行的标题
+          <p>**粗体**
+            <p>`console.log('行内代码')`
+              <p>```js\n code \n``` 标记代码块
+                <p>[内容](链接)
+                  <p>![文字说明](图片链接)
+      </ion-card-content>
+    </ion-card>
+  </form>
 </ion-content>

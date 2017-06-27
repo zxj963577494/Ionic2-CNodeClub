@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HomePage, HomeAddPage, HomeDetailPage } from '../pages/home/';
@@ -13,7 +14,7 @@ import { UserPage } from '../pages/user/';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { TopicService, MessageService, RepliesService, UserService, CollectService, CoreService, UtilService} from '../service/';
+import { TopicService, MessageService, RepliesService, UserService, CollectService, CoreService, UtilService } from '../service/';
 
 import { TabDirective } from "../directive/";
 import { AmAgoTimePipe, LinkPipe } from '../pipe/'
@@ -45,12 +46,17 @@ import { AmAgoTimePipe, LinkPipe } from '../pipe/'
           { component: HomePage, name: 'Home', segment: 'home' },
           { component: HomePage, name: 'Home', segment: 'home/tab/:tab' },
           { component: HomeDetailPage, name: 'HomeDetail', segment: 'home/:id' },
+          { component: HomeAddPage, name: 'HomeAdd', segment: 'home/add' },
           { component: UserPage, name: 'User', segment: 'user/:loginname' },
           { component: LoginPage, name: 'Login', segment: 'login' },
-          { component: AccountPage, name: 'Account', segment: 'account' }
+          { component: AccountPage, name: 'Account', segment: 'account' },
+          { component: AccountCollectsPage, name: 'AccountCollects', segment: 'account/collects' },
+          { component: AccountMessagesPage, name: 'AccountMessages', segment: 'account/messages' },
+          { component: AccountTopicsPage, name: 'AccountTopics', segment: 'account/topics' }
         ]
       }),
     HttpModule,
+    FormsModule,
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],

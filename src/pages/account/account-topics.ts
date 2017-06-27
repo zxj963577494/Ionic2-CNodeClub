@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { HomeDetailPage } from './../home/home-detail';
 import { UtilService } from "../../service/util.service";
@@ -16,7 +16,7 @@ export class AccountTopicsPage implements OnInit {
   repliesCount: number;
   user: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private userService: UserService, private utilService: UtilService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private userService: UserService, private utilService: UtilService) {
     this.user = {
       recent_topics: [],
       recent_replies: []
@@ -33,12 +33,7 @@ export class AccountTopicsPage implements OnInit {
     );
   }
 
-  dismiss() {
-    this.viewCtrl.dismiss();
-  }
-
   openPage(id: string) {
-    this.viewCtrl.dismiss();
     this.navCtrl.push(HomeDetailPage, { id: id });
   }
 

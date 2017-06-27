@@ -16,7 +16,7 @@ export class LoginPage implements OnInit {
     accesstoken: string
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private storage: Storage) {
     this.user = {
       id: 'fab02782-df19-425e-9158-224614dd928a',
       loginname: 'zxj963577494',
