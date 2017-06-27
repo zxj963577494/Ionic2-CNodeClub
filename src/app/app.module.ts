@@ -13,6 +13,11 @@ import { UserPage } from '../pages/user/';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Badge } from '@ionic-native/badge';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { AppVersion } from '@ionic-native/app-version';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 import { TopicService, MessageService, RepliesService, UserService, CollectService, CoreService, UtilService } from '../service/';
 
@@ -75,6 +80,11 @@ import { AmAgoTimePipe, LinkPipe } from '../pipe/'
   providers: [
     StatusBar,
     SplashScreen,
+    Badge,
+    InAppBrowser,
+    SocialSharing,
+    AppVersion,
+    BarcodeScanner,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     TopicService,
     MessageService,

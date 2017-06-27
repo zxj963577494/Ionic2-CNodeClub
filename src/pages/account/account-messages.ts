@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { Badge } from '@ionic-native/badge';
 
 import { UtilService } from "../../service/util.service";
 import { MessageService } from "../../service/message.service";
@@ -18,7 +19,7 @@ export class AccountMessagesPage implements OnInit {
   hasMessageCount: number;
   user: any;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private events: Events, private messageService: MessageService, private utilService: UtilService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private events: Events, private badge: Badge, private messageService: MessageService, private utilService: UtilService) {
     this.messageParams = {
       mdrender: true,
       accesstoken: ''
@@ -44,11 +45,13 @@ export class AccountMessagesPage implements OnInit {
     this.navCtrl.push(UserPage, { loginname: loginname });
   }
 
-  markOne(msg_id: string) {
-    this.messageService.PutMessageMarkOne(msg_id, { accesstoken: this.user.accesstoken }).subscribe(
+  markOne(message: any) {
+    this.messageService.PutMessageMarkOne(message.id, { accesstoken: this.user.accesstoken }).subscribe(
       data => {
         if (data.success) {
+          this.myMessages = this.myMessages.filter(item => item !== message);
           this.events.publish('messageCount', this.hasNotMessageCount - 1);
+          this.badge.set(this.hasNotMessageCount - 1).then().catch(error => console.log(error));
           this.utilService.toast('操作成功');
         }
       });
@@ -59,6 +62,7 @@ export class AccountMessagesPage implements OnInit {
       data => {
         if (data.success) {
           this.events.publish('messageCount', 0);
+          this.badge.clear();
           this.utilService.toast('全部标记为已读成功');
         }
       });

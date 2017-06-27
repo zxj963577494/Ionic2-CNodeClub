@@ -25,7 +25,7 @@
   </ion-fab>
   <ion-list class="list-avatar-page">
     <ion-item *ngFor="let item of topics;trackBy:item?.id" (click)="openPage(item.id)">
-      <ion-avatar item-start>
+      <ion-avatar item-start (click)="openUserPage(item.author.loginname, $event)">
         <img src="{{item.author.avatar_url}}" />
       </ion-avatar>
       <h3>{{item.title}}</h3>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { App, IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-
+import { Badge } from '@ionic-native/badge';
 
 import { TopicService } from '../../service/topic.service';
 import { UtilService } from '../../service/util.service';
@@ -9,6 +9,7 @@ import { HomeDetailPage } from './home-detail';
 import { LoginPage } from '../login/login';
 import { AccountPage } from '../account/account';
 import { HomeAddPage } from './home-add';
+import { UserPage } from '../user/user';
 
 @IonicPage()
 @Component({
@@ -22,7 +23,7 @@ export class HomePage implements OnInit {
   user: any;
   messageCount: number;
 
-  constructor(private appCtrl: App, private navCtrl: NavController, private navParams: NavParams, private events: Events, private topicService: TopicService, private utilService: UtilService, private messageService: MessageService) {
+  constructor(private appCtrl: App, private navCtrl: NavController, private navParams: NavParams, private events: Events, private badge: Badge, private topicService: TopicService, private utilService: UtilService, private messageService: MessageService) {
     this.tab = this.navParams.get('tab');
     this.params = {
       page: 1,
@@ -76,6 +77,10 @@ export class HomePage implements OnInit {
   openPage(id: string) {
     this.appCtrl.getRootNav().push(HomeDetailPage, { id: id });
   }
+  openUserPage(loginname: string, event) {
+    this.appCtrl.getRootNav().push(UserPage, { loginname: loginname });
+    event.stopPropagation();
+  }
 
   login() {
     if (this.user) {
@@ -96,7 +101,10 @@ export class HomePage implements OnInit {
   }
 
   getMesssge() {
-    this.messageService.GetMessageCount({ accesstoken: this.user.accesstoken }).subscribe(data => this.messageCount = data.data)
+    this.messageService.GetMessageCount({ accesstoken: this.user.accesstoken }).subscribe(data => {
+      this.messageCount = data.data;
+      this.badge.set(data.data).then().catch(error => console.log(error));
+    })
   }
 
   ngOnInit() {

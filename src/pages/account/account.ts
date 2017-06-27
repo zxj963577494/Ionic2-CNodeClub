@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { AppVersion } from '@ionic-native/app-version';
 
 import { UserService } from '../../service/user.service';
 import { UtilService } from '../../service/util.service';
@@ -14,10 +15,11 @@ import { AccountTopicsPage } from '../account';
   templateUrl: 'account.html',
 })
 export class AccountPage implements OnInit {
+  versionNumber: string;
   user: any;
   messageCount: string;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private events: Events, private userService: UserService, private utilService: UtilService, private messageService: MessageService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private events: Events, private appVersion: AppVersion, private userService: UserService, private utilService: UtilService, private messageService: MessageService) {
     this.user = {
       avatar_url: '',
       loginname: '',
@@ -27,6 +29,10 @@ export class AccountPage implements OnInit {
     events.subscribe('messageCount', (data) => {
       this.messageCount = data;
     });
+    this.versionNumber = '请在手机中运行';
+    this.appVersion.getVersionNumber().then((data) => {
+      this.versionNumber = data
+    }).catch((error) => console.log(error));
   }
 
   getUser() {

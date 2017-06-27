@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 import { TopicService } from '../../service/topic.service';
 import { CollectService } from '../../service/collect.service';
 import { RepliesService } from '../../service/replies.service';
 import { UtilService } from '../../service/util.service';
+import { UserPage } from '../user/user';
 
 @IonicPage()
 @Component({
@@ -17,9 +19,10 @@ export class HomeDetailPage implements OnInit {
   topic: any;
   replyParams: any;
   collectParams: any;
+  shareParams: any;
   user: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private topicService: TopicService, private collectService: CollectService, private repliesService: RepliesService, private utilService: UtilService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing, private topicService: TopicService, private collectService: CollectService, private repliesService: RepliesService, private utilService: UtilService) {
     this.id = this.navParams.get('id');
     this.topic = {
       author: {
@@ -46,12 +49,27 @@ export class HomeDetailPage implements OnInit {
       accesstoken: '',
       topic_id: ''
     }
+    this.shareParams = {
+      message: '',
+      subject: '',
+      link: ''
+    }
   }
 
   getTopicDetail() {
     this.topicService.getTopicDetail(this.id, this.topicParams).subscribe(
-      data => this.topic = data.data
+      data => {
+        this.topic = data.data;
+        this.shareParams.message = data.data.content.substring(0, 150) + '......';
+        this.shareParams.subject = data.data.title;
+        this.shareParams.link = 'https://cnodejs.org/topic/' + data.data.id;
+      }
     );
+  }
+
+  openUserPage(loginname: string, event) {
+    this.navCtrl.push(UserPage, { loginname: loginname });
+    event.stopPropagation();
   }
 
   collect(topic_id: string) {
@@ -120,6 +138,10 @@ export class HomeDetailPage implements OnInit {
     } else {
       this.utilService.toast('请登录后进行操作');
     }
+  }
+
+  share() {
+    this.socialSharing.share(this.shareParams.message, this.shareParams.subject, '', this.shareParams.link).then().catch(error => console.log(error));;
   }
 
   ngOnInit() {

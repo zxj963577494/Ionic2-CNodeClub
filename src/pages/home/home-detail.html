@@ -7,7 +7,7 @@
     </ion-buttons>
     <ion-title>CNode技术社区</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only>
+      <button ion-button icon-only (click)="share()">
         <ion-icon name="share-alt"></ion-icon>
       </button>
     </ion-buttons>
@@ -52,7 +52,7 @@
   </ion-card>
   <ion-list class="list-avatar-page">
     <ion-item text-wrap *ngFor="let item of topic.replies;trackBy:item?.id">
-      <ion-avatar item-start>
+      <ion-avatar item-start (click)="openUserPage(item.author.loginname, $event)">
         <img src="{{item.author.avatar_url}}" />
       </ion-avatar>
       <h2>{{item.author.loginname}}</h2>

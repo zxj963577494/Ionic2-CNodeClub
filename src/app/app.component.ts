@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { HomePage } from '../pages/home/home';
 import { UtilService } from '../service/util.service';
@@ -16,7 +17,7 @@ export class AppComponent {
 
   tabs: Array<{ key: string, value: string, icon: string }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private utilService: UtilService) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private iab: InAppBrowser, private utilService: UtilService) {
     this.initializeApp();
     this.getTabs();
   }
