@@ -13,7 +13,7 @@ import { UserPage } from '../../pages/user/user';
   templateUrl: 'account-messages.html',
 })
 export class AccountMessagesPage implements OnInit {
-  myMessages: any[];
+  myMessages: any;
   messageParams: any;
   hasNotMessageCount: number;
   hasMessageCount: number;
@@ -49,7 +49,8 @@ export class AccountMessagesPage implements OnInit {
     this.messageService.PutMessageMarkOne(message.id, { accesstoken: this.user.accesstoken }).subscribe(
       data => {
         if (data.success) {
-          this.myMessages = this.myMessages.filter(item => item !== message);
+          this.myMessages.hasnot_read_messages = this.myMessages.hasnot_read_messages.filter(item => item !== message);
+          this.myMessages.has_read_messages.unshift(message);
           this.events.publish('messageCount', this.hasNotMessageCount - 1);
           this.badge.set(this.hasNotMessageCount - 1).then().catch(error => console.log(error));
           this.utilService.toast('操作成功');

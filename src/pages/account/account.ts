@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { AppVersion } from '@ionic-native/app-version';
+import { Badge } from '@ionic-native/badge';
 
 import { UserService } from '../../service/user.service';
 import { UtilService } from '../../service/util.service';
@@ -19,7 +20,7 @@ export class AccountPage implements OnInit {
   user: any;
   messageCount: string;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private events: Events, private appVersion: AppVersion, private userService: UserService, private utilService: UtilService, private messageService: MessageService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private events: Events, private appVersion: AppVersion, private badge: Badge, private userService: UserService, private utilService: UtilService, private messageService: MessageService) {
     this.user = {
       avatar_url: '',
       loginname: '',
@@ -42,7 +43,10 @@ export class AccountPage implements OnInit {
   }
 
   getMesssge() {
-    this.messageService.GetMessageCount({ accesstoken: this.user.accesstoken }).subscribe(data => this.messageCount = data.data)
+    this.messageService.GetMessageCount({ accesstoken: this.user.accesstoken }).subscribe(data => {
+      this.messageCount = data.data;
+      this.badge.set(data.data).then().catch(error => console.log(error));
+    })
   }
 
   openPage(cate: string) {
