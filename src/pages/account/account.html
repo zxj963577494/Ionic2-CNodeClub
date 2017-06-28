@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>个人中心</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="loginOut()">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -8,7 +13,7 @@
   <ion-list>
     <ion-item>
       <ion-avatar item-left>
-        <img src="{{user.avatar_url}}">
+        <img src="{{user?.avatar_url}}">
       </ion-avatar>
       <h2>{{user?.loginname}}</h2>
       <p>积分 {{user?.score}}</p>
@@ -51,9 +56,9 @@
     </ion-item>
     <ion-item>
       开源地址
-      <ion-note item-right onclick="window.open('https://github.com/zxj963577494/Ionic2-CNodeClub', '_blank', 'location=yes')">Ionic2-CNodeClub</ion-note>
+      <ion-note item-right onclick="window.open('https://github.com/zxj963577494/Ionic2-CNodeClub', '_blank', 'location=no')">Ionic2-CNodeClub</ion-note>
     </ion-item>
-    <ion-item onclick="window.open('https://cnodejs.org/about', '_blank', 'location=no')">
+    <ion-item>
       CNode社区
       <ion-note item-right onclick="window.open('https://cnodejs.org', '_blank', 'location=no')">https://cnodejs.org</ion-note>
     </ion-item>

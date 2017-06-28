@@ -29,9 +29,11 @@
         "@ionic-native/splash-screen": "3.10.2",
         "@ionic-native/status-bar": "3.10.2",
         "@ionic/storage": "2.0.1",
+        "cordova-android": "^6.2.3",
         "cordova-ios": "^4.4.0",
         "cordova-plugin-app-version": "^0.1.9",
         "cordova-plugin-badge": "^0.8.1",
+        "cordova-plugin-browsertab": "^0.2.0",
         "cordova-plugin-compat": "^1.1.0",
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-device": "^1.1.4",
@@ -73,6 +75,7 @@
             "cordova-plugin-x-socialsharing": {}
         },
         "platforms": [
+            "android",
             "ios"
         ]
     }

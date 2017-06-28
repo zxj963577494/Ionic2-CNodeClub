@@ -5,7 +5,7 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class UtilService {
 
-  constructor(public toastCtrl: ToastController, private storage: Storage) { }
+  constructor(private toastCtrl: ToastController, private storage: Storage) { }
 
   getTabs(): Array<{ key: string, value: string, icon: string }> {
     return [{

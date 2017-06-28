@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { HomeDetailPage } from './../home/home-detail';
 import { UserService } from '../../service/user.service';
+import { UtilService } from '../../service/util.service';
 
 @IonicPage()
 @Component({
@@ -15,7 +16,7 @@ export class UserPage implements OnInit {
   topicsCount: number;
   repliesCount: number;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private userService: UserService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private userService: UserService, private utilService: UtilService) {
     this.loginname = navParams.get('loginname');
     this.user = {
       avatar_url: '',
@@ -42,6 +43,8 @@ export class UserPage implements OnInit {
   }
 
   ngOnInit() {
+    // 重要，移除下面这句话，通过href进入无法获取数据
+    this.utilService.toast('加载中');
     this.getUser();
   }
 }

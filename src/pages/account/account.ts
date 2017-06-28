@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { AppVersion } from '@ionic-native/app-version';
 import { Badge } from '@ionic-native/badge';
+import { Storage } from '@ionic/storage';
 
 import { UserService } from '../../service/user.service';
 import { UtilService } from '../../service/util.service';
@@ -9,6 +10,7 @@ import { MessageService } from '../../service/message.service';
 import { AccountCollectsPage } from '../account';
 import { AccountMessagesPage } from '../account';
 import { AccountTopicsPage } from '../account';
+import { LoginPage } from '../login/login';
 
 @IonicPage()
 @Component({
@@ -20,7 +22,7 @@ export class AccountPage implements OnInit {
   user: any;
   messageCount: string;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private events: Events, private appVersion: AppVersion, private badge: Badge, private userService: UserService, private utilService: UtilService, private messageService: MessageService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private events: Events, private appVersion: AppVersion, private badge: Badge, private storage: Storage, private userService: UserService, private utilService: UtilService, private messageService: MessageService) {
     this.user = {
       avatar_url: '',
       loginname: '',
@@ -45,6 +47,7 @@ export class AccountPage implements OnInit {
   getMesssge() {
     this.messageService.GetMessageCount({ accesstoken: this.user.accesstoken }).subscribe(data => {
       this.messageCount = data.data;
+      this.events.publish('messageCount', data.data);
       this.badge.set(data.data).then().catch(error => console.log(error));
     })
   }
@@ -61,11 +64,23 @@ export class AccountPage implements OnInit {
     }
   }
 
+  loginOut() {
+    this.events.publish('messageCount', 0);
+    this.storage.clear();
+    this.badge.clear().then().catch(error => console.log(error));
+    this.navCtrl.pop();
+  }
+
   ngOnInit() {
     this.utilService.getLoginStatus().then((data) => {
       this.user = data;
     }).then(() => {
-      this.getMesssge();
+      if (this.user) {
+        this.getMesssge();
+      }
+      else {
+        return this.navCtrl.push(LoginPage);
+      }
     }).then(() => this.getUser());
   }
 }

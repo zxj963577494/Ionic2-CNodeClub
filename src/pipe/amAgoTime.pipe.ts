@@ -12,7 +12,6 @@ export class AmAgoTimePipe implements PipeTransform {
   }
 
   getDateDiff(pTime: string) {
-    let result;
     const minute: number = 1000 * 60;
     const hour: number = minute * 60;
     const day: number = hour * 24;
@@ -28,25 +27,24 @@ export class AmAgoTimePipe implements PipeTransform {
     const hourC = diffValue / hour;
     const minC = diffValue / minute;
     if (yearC >= 1) {
-      result = Math.round(monthC) + "年前";
+      return Math.round(monthC) + "年前";
     }
-    if (monthC >= 1) {
-      result = Math.round(monthC) + "个月前";
+    else if (monthC >= 1) {
+      return Math.round(monthC) + "个月前";
     }
     else if (weekC >= 1) {
-      result = Math.round(weekC) + "周前";
+      return Math.round(weekC) + "周前";
     }
     else if (dayC >= 1) {
-      result = Math.round(dayC) + "天前";
+      return Math.round(dayC) + "天前";
     }
     else if (hourC >= 1) {
-      result = Math.round(hourC) + "小时前";
+      return Math.round(hourC) + "小时前";
     }
     else if (minC >= 1) {
-      result = Math.round(minC) + "分钟前";
+      return Math.round(minC) + "分钟前";
     } else {
-      result = "刚刚";
+      return "刚刚";
     }
-    return result;
   }
 }

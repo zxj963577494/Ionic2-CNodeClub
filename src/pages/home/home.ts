@@ -7,7 +7,6 @@ import { UtilService } from '../../service/util.service';
 import { MessageService } from '../../service/message.service';
 import { HomeDetailPage } from './home-detail';
 import { LoginPage } from '../login/login';
-import { AccountPage } from '../account/account';
 import { HomeAddPage } from './home-add';
 import { UserPage } from '../user/user';
 
@@ -83,12 +82,7 @@ export class HomePage implements OnInit {
   }
 
   login() {
-    if (this.user) {
-      this.appCtrl.getRootNav().push(AccountPage);
-    }
-    else {
-      this.appCtrl.getRootNav().push(LoginPage);
-    }
+    this.appCtrl.getRootNav().push(LoginPage);
   }
 
   addTopic() {

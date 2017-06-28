@@ -15,16 +15,10 @@ import { UtilService } from '../../service/util.service';
 })
 export class LoginPage implements OnInit {
   versionNumber: string;
-  user: {
-    id: string,
-    loginname: string,
-    avatar_url: string,
-    accesstoken: string
-  }
+  user: any;
 
   constructor(private navCtrl: NavController, private navParams: NavParams, private alertCtrl: AlertController, private viewCtrl: ViewController, private storage: Storage, private appVersion: AppVersion, private barcodeScanner: BarcodeScanner, private userService: UserService, private utilService: UtilService) {
     this.user = {
-      id: '',
       loginname: '',
       avatar_url: '',
       accesstoken: ''
@@ -47,10 +41,8 @@ export class LoginPage implements OnInit {
           handler: () => {
             this.barcodeScanner.scan().then((barcodeData) => {
               this.user.accesstoken = barcodeData.text;
-              this.utilService.toast(barcodeData.text);
               this.userService.PostAccessToken({ accesstoken: this.user.accesstoken }).subscribe((data) => {
                 if (data.success) {
-                  this.user.id = data.id;
                   this.user.loginname = data.loginname;
                   this.user.avatar_url = data.avatar_url;
                   this.storage.set('user', this.user);
@@ -58,19 +50,58 @@ export class LoginPage implements OnInit {
                     let index = this.viewCtrl.index;
                     this.navCtrl.remove(index);
                   });
+                  this.utilService.toast('登录成功');
                 }
                 else {
                   this.utilService.toast('登录失败');
                 }
               })
             }, (err) => {
-              this.user.id = '';
-              this.user.loginname = 'zxj963577494';
-              this.user.avatar_url = 'https://avatars1.githubusercontent.com/u/6766515?v=3&s=120';
-              this.user.accesstoken = 'fab02782-df19-425e-9158-224614dd928a';
-              this.storage.set('user', this.user);
+              this.alertCtrl.create({
+                title: '注意',
+                message: '在非手机设备(浏览器)时登录，需填入相关用户信息，必填！',
+                inputs: [
+                  {
+                    name: 'loginname',
+                    placeholder: '用户名'
+                  },
+                  {
+                    name: 'avatar_url',
+                    placeholder: '头像URL',
+                  },
+                  {
+                    name: 'accesstoken',
+                    placeholder: 'accesstoken',
+                  }
+                ],
+                buttons: [
+                  {
+                    text: '取消',
+                    role: 'cancel',
+                    handler: data => {
+                    }
+                  },
+                  {
+                    text: '登录',
+                    handler: data => {
+                      if (data.loginname && data.avatar_url && data.accesstoken) {
+                        this.user.loginname = data.loginname;
+                        this.user.avatar_url = data.avatar_url;
+                        this.user.accesstoken = data.accesstoken;
+                        this.storage.set('user', this.user);
+                        this.navCtrl.push(AccountPage).then(() => {
+                          let index = this.viewCtrl.index;
+                          this.navCtrl.remove(index);
+                        });
+                      } else {
+                        return false;
+                      }
+                    }
+                  }
+                ]
+              }).present();
               console.log(err);
-            }).catch((error) => console.log(error));
+            });
           }
         }
       ]
@@ -78,6 +109,18 @@ export class LoginPage implements OnInit {
     alert.present();
   }
 
+  ionViewCanEnter() {
+    this.utilService.getLoginStatus().then((data) => {
+      if (data) {
+        this.navCtrl.push(AccountPage).then(() => {
+          let index = this.viewCtrl.index;
+          this.navCtrl.remove(index);
+        });
+      }
+    })
+  }
+
   ngOnInit() {
+
   }
 }
