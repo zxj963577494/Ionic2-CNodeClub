@@ -36,6 +36,9 @@ export class HomePage implements OnInit {
     events.subscribe('topicPush', (data) => {
       this.topics.unshift(data);
     });
+    events.subscribe('user', (data) => {
+      this.user = data;
+    });
   }
 
   GetTopics() {

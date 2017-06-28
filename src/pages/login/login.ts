@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ViewController, Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { AppVersion } from '@ionic-native/app-version';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
@@ -17,7 +17,7 @@ export class LoginPage implements OnInit {
   versionNumber: string;
   user: any;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private alertCtrl: AlertController, private viewCtrl: ViewController, private storage: Storage, private appVersion: AppVersion, private barcodeScanner: BarcodeScanner, private userService: UserService, private utilService: UtilService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private alertCtrl: AlertController, private viewCtrl: ViewController, private storage: Storage, private events: Events, private appVersion: AppVersion, private barcodeScanner: BarcodeScanner, private userService: UserService, private utilService: UtilService) {
     this.user = {
       loginname: '',
       avatar_url: '',
@@ -45,6 +45,7 @@ export class LoginPage implements OnInit {
                 if (data.success) {
                   this.user.loginname = data.loginname;
                   this.user.avatar_url = data.avatar_url;
+                  this.events.publish('user', this.user);
                   this.storage.set('user', this.user);
                   this.navCtrl.push(AccountPage).then(() => {
                     let index = this.viewCtrl.index;
@@ -88,6 +89,7 @@ export class LoginPage implements OnInit {
                         this.user.loginname = data.loginname;
                         this.user.avatar_url = data.avatar_url;
                         this.user.accesstoken = data.accesstoken;
+                        this.events.publish('user', this.user);
                         this.storage.set('user', this.user);
                         this.navCtrl.push(AccountPage).then(() => {
                           let index = this.viewCtrl.index;
