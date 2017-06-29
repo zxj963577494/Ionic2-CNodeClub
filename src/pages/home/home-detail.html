@@ -17,7 +17,7 @@
 <ion-content>
   <ion-card>
     <ion-item>
-      <ion-avatar item-start>
+      <ion-avatar item-start (click)="openUserPage(topic.author.loginname, $event)">
         <img src="{{topic.author.avatar_url}}" />
       </ion-avatar>
       <h2>{{topic.author.loginname}}</h2>

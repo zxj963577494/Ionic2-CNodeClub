@@ -53,4 +53,8 @@ export class UtilService {
       return val;
     })
   }
+
+  getHtmlText(str: string) {
+    return str.replace(/<[^>]+>/g, '');
+  }
 }

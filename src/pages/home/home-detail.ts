@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { TopicService } from '../../service/topic.service';
 import { CollectService } from '../../service/collect.service';
@@ -22,7 +23,7 @@ export class HomeDetailPage implements OnInit {
   shareParams: any;
   user: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing, private topicService: TopicService, private collectService: CollectService, private repliesService: RepliesService, private utilService: UtilService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing, private sanitize:DomSanitizer, private topicService: TopicService, private collectService: CollectService, private repliesService: RepliesService, private utilService: UtilService) {
     this.id = this.navParams.get('id');
     this.topic = {
       author: {
@@ -60,7 +61,8 @@ export class HomeDetailPage implements OnInit {
     this.topicService.getTopicDetail(this.id, this.topicParams).subscribe(
       data => {
         this.topic = data.data;
-        this.shareParams.message = data.data.content.substring(0, 150) + '......';
+        this.shareParams.message = this.utilService.getHtmlText(data.data.content).substring(0, 150) + '......';
+        console.log(this.shareParams.message);
         this.shareParams.subject = data.data.title;
         this.shareParams.link = 'https://cnodejs.org/topic/' + data.data.id;
       }

@@ -12,9 +12,9 @@
 
 3.npm install
 
-4.ionic platform add android/ios
+4.ionic cordova platform add android/ios
 
-5.ionic build android/ios
+5.ionic cordova build android/ios
 
 # 在浏览器中查看
 

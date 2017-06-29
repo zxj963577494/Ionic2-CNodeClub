@@ -51,8 +51,8 @@ export class AccountMessagesPage implements OnInit {
         if (data.success) {
           this.myMessages.hasnot_read_messages = this.myMessages.hasnot_read_messages.filter(item => item !== message);
           this.myMessages.has_read_messages.unshift(message);
-          this.events.publish('messageCount', this.hasNotMessageCount - 1);
-          this.badge.set(this.hasNotMessageCount - 1).then().catch(error => console.log(error));
+          this.events.publish('messageCount', this.myMessages.hasnot_read_messages.length);
+          this.badge.set(this.myMessages.hasnot_read_messages.length).then().catch(error => console.log(error));
           this.utilService.toast('操作成功');
         }
       });
