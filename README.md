@@ -32,7 +32,7 @@
 
 ![下载.png](http://os9fefyck.bkt.clouddn.com/review.png)
 
-[Android](https://fir.im/9e6h "android") / [iOS(需越狱)](https://fir.im/9e6h "IOS")
+[Android](https://fir.im/k4qz "android") / [iOS(需越狱)](https://fir.im/9e6h "IOS")
 
 
 # 项目展示
