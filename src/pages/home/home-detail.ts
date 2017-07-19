@@ -120,7 +120,7 @@ export class HomeDetailPage implements OnInit {
   saveReply() {
     if (this.user) {
       if (this.replyParams.content.indexOf('@') < 0) {
-        this.replyParams.reply_id = '';
+        this.replyParams.replyId = '';
       }
       this.repliesService.PostReplies(this.id, this.replyParams).subscribe((data) => {
         if (data.success) {
