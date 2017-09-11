@@ -4,7 +4,7 @@
 
 # 前置条件
 
-node.js v6 ⬆️，cordova v7.0.1(可尝试降级使用)
+node.js v6⬆️，ionic cli v3.4.0⬆️, cordova v7.0.1(可尝试降级使用)
 
 # 安装指南
 
