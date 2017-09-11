@@ -26,7 +26,7 @@
 
 3.npm install
 
-4.ionic serve
+4.ionic serve (windows可尝试使用 ```npm run ionic:serve```)
 
 # 下载地址
 
