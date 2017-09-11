@@ -2,6 +2,10 @@
 
 基于Ionic的[CNode中文论坛](https://cnodejs.org/ "CNode中文论坛")客户端，采用最新的Ionic 3.4.2 + Angular 4 + TypeScript 2.3
 
+# 前置条件
+
+node.js v6 ⬆️，cordova v7.0.1(可尝试降级使用)
+
 # 安装指南
 
 0.npm install -g ionic cordova
